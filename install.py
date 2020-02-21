@@ -5,11 +5,32 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser(description='安装参数')
 parser.add_argument('--wafdir', default='/ns3-gym', type=str, help='安装目录')
+parser.add_argument('--nocopy', default=False, action='store_true', help='是否跳过文件复制')
 parser.add_argument('--norebuild', default=False, action='store_true', help='是否跳过waf rebuild')
+parser.add_argument('--noconf', default=False, action='store_true', help='是否跳过conf生成')
 args = parser.parse_args()
 
 cur_path = Path().resolve()
 ns3_path = (cur_path / args.wafdir).resolve()
+
+
+def create_conf():
+    """
+    产生查找waf路径使用的configure文件
+    内容是waf路径
+    文件会被放置在ns3gym安装包文件夹下，随ns3gym包一起被安装
+    """
+
+    # 产生conf
+    waf_path = ns3_path / 'waf'
+    conf = {'waf_path': str(waf_path)}
+
+    # 获取conf path
+    conf_path = cur_path / 'ns3gym' / 'ns3gym' / 'wafconf.py'
+    with conf_path.open('w') as f:
+        f.write(f'conf = {conf}')
+
+    print("生成waf路径完成")
 
 
 def file_copy():
@@ -38,6 +59,9 @@ def waf_rebuild():
 
 
 if __name__ == '__main__':
-    file_copy()
+    if not args.nocopy:
+        file_copy()
     if not args.norebuild:
         waf_rebuild()
+    if not args.noconf:
+        create_conf()
