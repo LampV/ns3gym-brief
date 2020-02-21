@@ -32,7 +32,7 @@ Installation
 2. 从git获取ns3-gym-brief的源代码
 
    ```bash
-   git clone https://github.com/LampV/ns3-gym ns3gym_brief
+   git clone https://github.com/LampV/ns3gym-brief ns3gym_brief
    cd ns3gym_brief
    ```
 
