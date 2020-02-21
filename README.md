@@ -44,7 +44,7 @@ Installation
    python setup.py --wafdir=YOUR_DIR
    ```
 
-   `--wafdir`的默认值是`/ns3-gym`，这通常意味着你需要显式指定安装目录
+   `--wafdir`的默认值是`/ns-3-dev`
 
    你可以通过
 
