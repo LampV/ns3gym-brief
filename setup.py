@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 parser = argparse.ArgumentParser(description='安装参数')
-parser.add_argument('--wafdir', default='/ns3-gym', type=str, help='安装目录，默认值为/ns3-gym')
+parser.add_argument('--wafdir', default='/ns-3-dev', type=str, help='安装目录，默认值为/ns-3-dev')
 parser.add_argument('--nocopy', default=False, action='store_true', help='是否跳过文件复制')
 parser.add_argument('--norebuild', default=False, action='store_true', help='是否跳过waf build')
 parser.add_argument('--noreconf', default=False, action='store_true', help='是否跳过waf configure')
