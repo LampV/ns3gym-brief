@@ -2,10 +2,16 @@
 import sys
 import os
 import time
+from .wafconf import conf
 import subprocess
 
 
 def find_waf_path(cwd):
+	# 优先查找配置文件
+	if 'waf_path' in conf:
+		wafPath = conf['waf_path']
+		return wafPath
+
 	wafPath = cwd
 
 	found = False
@@ -59,9 +65,11 @@ def build_ns3_project(debug=True):
 	os.chdir(cwd)
 
 
-def start_sim_script(port=5555, simSeed=0, simArgs={}, debug=False):
+def start_sim_script(simScriptName=None, port=5555, simSeed=0, simArgs={}, debug=False):
 	cwd = os.getcwd()
-	simScriptName = os.path.basename(cwd)
+	# 只有在没有指定simScriptName的时候才用当前文件夹名作为默认值
+	if simScriptName is None:
+		simScriptName = os.path.basename(cwd)
 	wafPath = find_waf_path(cwd)
 	baseNs3Dir = os.path.dirname(wafPath)
 
@@ -83,6 +91,7 @@ def start_sim_script(port=5555, simSeed=0, simArgs={}, debug=False):
 
 	wafString += '"'
 
+	print(wafString, flush=True)
 	ns3Proc = None
 	if debug:
 		ns3Proc = subprocess.Popen(wafString, shell=True, stdout=None, stderr=None)
